@@ -1,0 +1,22 @@
+(1) get fileGenerators, Omniglot_JR_ALL2, and processed_data in the same directory.
+(2) run downSampleAll.py <filepath to omniglot_JR_ALL2> 
+    This will create Downsampled_Omniglot_JR_ALL2
+(3) run fileGenerator.py <filepath to Downsampled_Omniglot_JR_ALL2>
+	This will add requisite data files to procesesed_data folder
+(4) run datasetGenerator.m in matlab
+	This will create omniJrRaw.mat
+(5) run cleanse.m in matlab
+	This will create omniJr.mat
+
+Results of each step
+(1) Gets all data/code in one place
+(2) Downsamples the images from 600x600 to 105x105
+	by scaling the x and y values in the csv files
+	and creating a new folder to store these new files.
+	This new folder will contain only csv files (no images).
+(3) Parses csvs to generate appropriate files. drawings contains
+	the x, y positions. images the 105 x 105 binary images. Timing
+	the appropriate times. Names hold names of different alphabets.
+	Offsets simply for formalities not actually used by model.
+(4) Saves json files in a mat file.
+(5) Reformats contents of mat file to match those used in BPL.
