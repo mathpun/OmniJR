@@ -1,3 +1,17 @@
+Need these toolbox's in your Matlab:
+Optimization Toolbox
+Statistics Toolbox (before 2015a) OR Statistics and machine learning toolbox
+Image Processing toolbox
+Curve fitting toolbox
+
+Lightspeed Matlab toolbox (this is from GitHub)
+Install this and then need a command every time to use: 
+OR put it in folder where you are working from (same directory)
+https://github.com/tminka/lightspeed
+
+
+
+
 (1) get fileGenerators, Omniglot_JR_ALL2, and processed_data in the same directory.
 (2) run downSampleAll.py <filepath to omniglot_JR_ALL2> 
     This will create Downsampled_Omniglot_JR_ALL2
