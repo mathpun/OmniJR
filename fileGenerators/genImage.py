@@ -9,9 +9,9 @@ class Image:
 	#CHANGE IF NOT CORRECT randomly guessed max coords for images in omniJr
 	maxC = downSample.MAX_COORD
 
-	#Pixel array maintains binary representation.  0 -> ink, 1 -> no ink
+	#Pixel array maintains binary representation.  false -> ink, true -> no ink
 	def __init__(self):
-		self.pixels = np.ones([self.maxC, self.maxC], dtype='int32')
+		self.pixels = np.ones([self.maxC, self.maxC], dtype='bool')
 		self.ones = []
 
 	def copy(self):
