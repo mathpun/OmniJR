@@ -59,7 +59,7 @@ classdef UtilImage
         % When the image I is blank - i and j are empty arrays
         % Return NaN in this case
         if isempty(i) & isempty(j)
-            rg = NaN(1,2);
+            rg = zeros(1,2);
         else
             pt_motor = space_img_to_motor(pt_img);    
             rg = zeros(1,2);
