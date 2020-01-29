@@ -56,11 +56,12 @@ classdef Dataset < BetterHandle
         end
        
         % get a subset of the dataset
-        function dat = get(obj,type,aindx,cindx,rindx)
+        function dat = get(obj,type,aindx,cindx,rindx,sqz)
             % type: "images","drawings", etc. or "all" for struct of all
             % aindx: alphabet index (or string with name)
             % cindx: character index
             % rindx: replication (drawer index)
+            % sqz: flag to squeeze dimensions or not
             % 
             % Any of the "indx" parameters can also be set to "random",
             % in which case a random alphabet/character/rep is chosen.
@@ -76,6 +77,9 @@ classdef Dataset < BetterHandle
             end
             if ~exist('rindx','var')
                rindx = []; 
+            end
+            if ~exist('sqz','var')
+               sqz = false; 
             end
             random_alpha = strcmp(aindx,'random');
             random_char = strcmp(cindx,'random');
@@ -125,7 +129,9 @@ classdef Dataset < BetterHandle
             end
             
             % why are we doing this?
-%             dat = nested_squeeze(obj,dat);
+            if sqz
+                dat = nested_squeeze(obj,dat);
+            end
             
         end        
     end

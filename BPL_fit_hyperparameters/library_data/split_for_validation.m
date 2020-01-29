@@ -36,13 +36,13 @@ for a=1:nalpha
     itest = perm(ntrain+1:end);
     
     if ntrain > 0
-        D_train{a} = O.get('drawings',a,itrain);
-        I_train{a} = O.get('image',a,itrain);
+        D_train{a} = O.get('drawings',a,itrain,[],true);
+        I_train{a} = O.get('image',a,itrain,[],true);
     end
     
     if ntest > 0
-        D_test{a}  = O.get('drawings',a,itest);
-        I_test{a}  = O.get('image',a,itest);
+        D_test{a}  = O.get('drawings',a,itest,[],true);
+        I_test{a}  = O.get('image',a,itest,[],true);
     end
     
     if ntrain == 1
