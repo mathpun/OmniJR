@@ -19,6 +19,11 @@ function N = process(nested,minlen,mindist)
     m = numel(nested);
     
     % If we are at the character level
+    % added case for empty stroke - Charlie Snell
+    if m == 0
+        N = nested;
+        return;
+    end
     if ~iscell(nested{1})    
         
         len = zeros(m,1);

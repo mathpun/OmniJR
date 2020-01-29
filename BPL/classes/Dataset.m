@@ -124,7 +124,8 @@ classdef Dataset < BetterHandle
                end               
             end
             
-            dat = nested_squeeze(obj,dat);
+            % why are we doing this?
+%             dat = nested_squeeze(obj,dat);
             
         end        
     end

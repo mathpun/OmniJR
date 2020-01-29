@@ -54,11 +54,18 @@ classdef UtilImage
         on = I==1;
         [i,j] = find(on & ~missing);
         pt_img = [i j];
-
-        pt_motor = space_img_to_motor(pt_img);    
-        rg = zeros(1,2);
-        rg(1) = range(pt_motor(:,1));
-        rg(2) = range(pt_motor(:,2));        
+        
+        % Added check for empty images - Masha Belyi 10.26.19
+        % When the image I is blank - i and j are empty arrays
+        % Return NaN in this case
+        if isempty(i) & isempty(j)
+            rg = zeros(1,2);
+        else
+            pt_motor = space_img_to_motor(pt_img);    
+            rg = zeros(1,2);
+            rg(1) = range(pt_motor(:,1));
+            rg(2) = range(pt_motor(:,2));
+        end
     end
  
    end
