@@ -3,3 +3,4 @@ classification/model_fits*
 classification/model_refits*
 classification/archive
 generate_exemplars/model_fits
+.DS_Store

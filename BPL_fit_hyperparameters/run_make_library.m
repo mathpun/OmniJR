@@ -10,4 +10,4 @@ tormv = lib.shape.freq < ps.minsize_table;
 keep = ~tormv;
 lib.restrict_library(keep);
 
-save('mylib_dec5','lib');
+save('mylib_omniJR','lib');

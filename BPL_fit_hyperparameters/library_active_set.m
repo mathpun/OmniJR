@@ -14,7 +14,7 @@ function as = library_active_set()
     
     % primitives
     as.primitives = 'primitive_model_june6';
-    as.nprim = 1249; % number of primitives that we want
+    as.nprim = 1250; % number of primitives that we want
     
     % special
     as.relations = 'relation_model_june6'; 

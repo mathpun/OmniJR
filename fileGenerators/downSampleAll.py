@@ -8,7 +8,12 @@ import genImage
 
 
 data_file_path = sys.argv[1]
+#REMOVE trailing slash - else causes a bug
+if data_file_path.endswith('/'):
+	data_file_path = data_file_path[:-1]
+	
 old_folder_name = data_file_path[data_file_path.rfind('/') + 1:]
+
 
 new_folder_name = 'Downsampled_'+old_folder_name
 
