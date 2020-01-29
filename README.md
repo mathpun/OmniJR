@@ -193,4 +193,6 @@ Before running this, make sure that the file names and the number of primitives 
 
 Once the hyperparameter training (section 6) is complete - grab the mylib_ominJR.m file from the BPL_fit_hyperparameters  directory and place it in the BPL/ directory. Rename the file to library.mat. This acts as input for demo_fit.m
 
-Now you can run demo_fit and it will use the new primitives learned in step 6 and fit them to strokes.
+Now you can run demo_fit and other scripts in the BPL folder and it will use the new primitives learned in the previous steps.
+
+* Run 'plot_primitives.m' to visualize what the extracted primitives look like
