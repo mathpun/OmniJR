@@ -15,9 +15,10 @@ if data_file_path.endswith('/'):
 old_folder_name = data_file_path[data_file_path.rfind('/') + 1:]
 
 
-new_folder_name = 'Downsampled_'+old_folder_name
+new_folder_name = 'Downsampled2_'+old_folder_name
 
 ORIGINAL_MAX_DIM = 600
+ORIGINAL_MIN_DIM = -600
 
 def subdirs(fp):
 	return glob.glob(fp+"/*/")
@@ -37,6 +38,6 @@ for alphabet in subdirs(data_file_path):
 		for individual in glob.glob(letter+"/*.csv"):
 
 			new_file_path = individual.replace(old_folder_name, new_folder_name)
-			downSample.compressTo(individual, new_file_path, ORIGINAL_MAX_DIM)
+			downSample.compressTo(individual, new_file_path, ORIGINAL_MIN_DIM, ORIGINAL_MAX_DIM)
 
 			

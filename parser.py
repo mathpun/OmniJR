@@ -15,8 +15,8 @@ def loadDataFromFolder(datadir):
     print([x for x in test_image_jsons])
     
     
-    test_images = {x[0]: TestImage(x[1]) for x in test_image_jsons}
-    test_sequences = {x[0]: TestSequence(test_images, x[1]) for x in test_sequence_jsons}
+    test_images = {int(key): TestImage(test_image_jsons[key]) for key in test_image_jsons.keys()}
+    test_sequences = {int(key): TestSequence(test_images, test_sequence_jsons[key]) for key in test_sequence_jsons.keys()}
     test_subjects = [TestSubject(test_sequences, x) for x in test_subject_jsons]
     return test_subjects
 
@@ -77,7 +77,7 @@ class TestStroke:
     The elements of this loop are again of the shape {x: x-coord, y: y-coord}.
     """
     def __init__(self, json):
-        self.results = {parseIsoTime(x[0]): x for x in json}
+        self.results = {parseIsoTime(key): [key,json[key]] for key in json.keys()}
 
     def __iter__(self):
         sortedKeys = sorted(list(self.results.keys()))
