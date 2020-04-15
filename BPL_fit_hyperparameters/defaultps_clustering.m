@@ -27,7 +27,7 @@ function ps = defaultps_clustering()
     ps.minsize_table = 5; % minimum size of a cluster to include it  
     ps.em.regcov = (ps.tokenvar_shape_sd)^2; % regularization parameter added to covariance in clustering
     ps.em.replicates = 3; % number of times to run EM with different random starts
-    ps.em.int_nclust = 1250; % [1000 1250 1500 2000 2500];  number of primitives to consider
+    ps.em.int_nclust = 350; % [1000 1250 1500 2000 2500];  number of primitives to consider
     ps.em.rep_invscale = 2; % number of times we should replicate the scale dimension
     ps.em.int_reg_count = [.01 .1 1]; % additive counts when learning a transition matrix    
     

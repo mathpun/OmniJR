@@ -1,7 +1,7 @@
 import csv
 import os
 
-MAX_COORD = 120
+MAX_COORD = 110
 
 def compressTo(original_file, new_file, min_coord, max_coord, new_dim=MAX_COORD):
 	original = csv.reader(open(original_file, 'r'))

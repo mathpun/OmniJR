@@ -2,6 +2,7 @@ import os
 import csv
 
 data = 'Downsampled2_Omniglot_JR_ALL2'
+# data = '../omniglot/python/strokes_background_small1'
 
 max_x = float('-inf')
 max_y = float('-inf')
@@ -18,6 +19,8 @@ for file in os.listdir(data):
 						with open(data + '/' + file + '/' + file2 + '/' + file3) as f:
 							rows = csv.reader(f, delimiter=',')
 							for row in rows:
+								if len(row) == 1:
+									continue
 								x = float(row[0])
 								y = float(row[1])
 
@@ -48,5 +51,6 @@ for file in os.listdir(data):
 # 					min_y = y
 
 
-print(max_x, max_y)
-print(min_x, min_y)
+print('max x %f, max y %f' % (max_x, max_y))
+print('min x %f, min y %f' % (min_x, min_y))
+

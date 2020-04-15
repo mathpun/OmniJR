@@ -24,7 +24,7 @@ classdef SpatialModel < BetterHandle
             for i=1:clump_id-1
                 data = data_start(data_id==i,:);
                 this.list_SH{i} = SpatialHist(data,xlim,ylim,nbin_per_side,prior_count);
-            end           
+            end         
             
             % lump together datapoints from strokes after and includingclump_id
             sel = data_id >= clump_id;

@@ -43,7 +43,7 @@ class Image:
 
 		for i in range(num_steps+1):
 			pos = start + step * i
-			x, y = int(pos[0]), int(pos[1])
+			x, y = int(pos[0]), int(pos[1]+110)
 			self.ink(x, y)
 
 
@@ -95,7 +95,6 @@ def getImageArray(csv_file_path):
 		y = float(row[1])
 
 		if (prev_point != None):
-
 			img.draw(prev_point[0], prev_point[1], x, y)
 
 		prev_point = (x, y)

@@ -26,7 +26,7 @@ num_alphabets = len(subdirs(data_file_path))
 
 #REPLACE ONCE OFFSET FIGURED OUT
 dummy_offsets = [[0, 0] for i in range(num_alphabets)]
-json.dump(dummy_offsets, open("../processed_data/offsets.json",'w'))
+json.dump(dummy_offsets, open("processed_data/offsets.json",'w'))
 
 
 i = 1
@@ -98,10 +98,10 @@ for alphabet in subdirs(data_file_path):
 				cur_stroke_drawing.append([float(row[0]), float(row[1])])
 				cur_stroke_time.append(float(row[2]))
 
-json.dump(names,open('../processed_data/names.json','w'))
-json.dump(drawings,open('../processed_data/drawings.json','w'))
-json.dump(timing,open('../processed_data/timing.json','w'))
-json.dump(images,open('../processed_data/images.json','w'))
+json.dump(names,open('processed_data/names.json','w'))
+json.dump(drawings,open('processed_data/drawings.json','w'))
+json.dump(timing,open('processed_data/timing.json','w'))
+json.dump(images,open('processed_data/images.json','w'))
 
 
 

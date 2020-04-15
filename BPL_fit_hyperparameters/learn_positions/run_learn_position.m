@@ -16,7 +16,8 @@ test_start = data_start;
 test_id = data_id;
 
 %fixed edge bounds for the histogram - Charlie Snell
-xlim = [-10 105]
-ylim = [-10 105]
-pModel = model_selection_position(train_start,train_id,test_start,test_id, xlim, ylim);
+%xlim = [-10 105]
+%ylim = [-10 105]
+
+pModel = model_selection_position(train_start,train_id,test_start,test_id);
 save('position_model_june6','pModel');

@@ -37,15 +37,15 @@ end
 nplot = max_ns;
 ncol = 5;
 nrow = ceil(nplot/ncol);
-my_ylim = [0 1];
-my_xlim = [0 11];
+my_ylim = [1 1];
+my_xlim = [1 11];
 figure;
 for i=1:nplot
     subplot(nrow,ncol,i);
     bar(pmat_nsub(i,:));
     title(makestr('character with ',i,' stroke'));
-    xlim(my_xlim);
-    ylim(my_ylim);
+% %     xlim(my_xlim);
+% %     ylim(my_ylim);
 end
 
 %%
