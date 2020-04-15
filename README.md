@@ -196,3 +196,8 @@ Once the hyperparameter training (section 6) is complete - grab the mylib_ominJR
 Now you can run demo_fit and other scripts in the BPL folder and it will use the new primitives learned in the previous steps.
 
 * Run 'plot_primitives.m' to visualize what the extracted primitives look like
+
+
+Note: If demo_fit.m shows -inf log probs, it is likeley a bounds issue make sure images have x coordinates in the range 0 to 110 and y foordinnates in the rannge from -110 to 0. downSample.py tries to rescale this. Additionally the code genImage.py lie 46, the y corrdinate needs to be shifted so that it is positive when callinng sel.ink(x, y). Both of these files are in the fileGenerators folder
+
+

@@ -43,6 +43,7 @@ class Image:
 
 		for i in range(num_steps+1):
 			pos = start + step * i
+			#shifted y cause the corrdinates are actually negative
 			x, y = int(pos[0]), int(pos[1]+110)
 			self.ink(x, y)
 
