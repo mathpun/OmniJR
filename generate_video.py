@@ -12,9 +12,11 @@ import pdb
 import seaborn as sns
 from datetime import datetime
 import dateutil.parser
+import csv
+import matplotlib.pyplot as plt
 sns.set_style("white")
-dataFolder = 'PilotData_K/'
-outputFolder = dataFolder + "allOutput_Extra/"
+dataFolder = 'OMNIGLOT_JR4_USE/'
+outputFolder = 'test_out2/'
 
 
 ## definition statement, helper functions
@@ -33,8 +35,8 @@ def gety(p):
 
 def plotstroke_new(ax, onestroke, onecolor, file_ind, outputDirectory):
     #print onestroke
-    xs = list(map(getx,onestroke))
-    ys = list(map(gety,onestroke))
+    xs = list(map(lambda x: x[0], onestroke))
+    ys = list(map(lambda x: x[1], onestroke))
     ySizeOfImage = 500
     xSizeOfImage = 500
     assert(len(xs) == len(ys))
@@ -44,24 +46,9 @@ def plotstroke_new(ax, onestroke, onecolor, file_ind, outputDirectory):
     for i in range(len(xs)):
         x, y = xs[:i], ys[:i]
         temp_plot = ax.plot(x,y,lw=3, color=onecolor)
-        savefig(outputDirectory + 'image%02d_%04d' %(file_ind, i))
+        plt.savefig(os.path.join(outputDirectory, 'image%02d_%04d' %(file_ind, i)))
     
     ax.invert_yaxis()
-    
-#     ## TOMER EDITING HERE
-#     strokeDirectory = outputFolder + "tomerInsanity/"
-#     f2 = figure()
-#     ax2 = f2.gca()
-#     ax2.invert_yaxis()
-#     for i in range(len(xs)):
-#         x, y = xs[:i], ys[:i]
-#         temp_plot = ax2.plot(x,y,lw=3, color=onecolor)
-#     ## TOMER EDITING HERE
-#     savefig(strokeDirectory + "stroke" + str(file_ind))
-#     ax2.invert_yaxis()
-#     ## TOMER END EDITING HERE
-    
-
 
 def flatList(l):
     return [item for sublist in l for item in sublist]
@@ -86,20 +73,18 @@ def makeimage(letter, outputDirectory):
                    ]
     #strokes = letter[u'strokes']
     strokes = list(letter)
-    f = figure() # ray
+    f = plt.figure() # ray
     ax = f.gca() # ray
-    yticks([])
-    xticks([])
-    xlim(0,500)
-    ylim(0,500)
+    plt.yticks([])
+    plt.xticks([])
+    plt.xlim(0,500)
+    plt.ylim(0,500)
     allX = []
     allY = []
     allStrokeNumbers = []
     
-    #Added
     allTimes = []
-    init_time = list(strokes[0])[0][0]
-    init_time_index = dateutil.parser.parse(init_time)
+    init_time = strokes[0][0][2]
     def rel_time_index(p):
         time = p[0]
         td =  dateutil.parser.parse(time) - init_time_index
@@ -110,50 +95,61 @@ def makeimage(letter, outputDirectory):
         color = strokeColors[i]
         stroke = strokes[i]
         stroke = [w for w in stroke]
-        xs = map(getx, stroke)
-        ys = map(gety, stroke)
-        times = map(rel_time_index, stroke)
+        xs = list(map(lambda x: x[0], stroke))
+        ys = list(map(lambda x: x[1], stroke))
+        times = list(map(lambda x: x[2] - init_time, stroke))
         allX.append(xs)
         allY.append(ys)
         allStrokeNumbers.append([i+1]*len(stroke))
-        #Added
         allTimes.append(times)
         
-        plotstroke_new(ax, stroke, color, i, outputDirectory) 
+        plotstroke_new(ax, stroke, color, i, outputDirectory)
     allX = flatList(allX)
     allY = flatList(allY)
     allStrokeNumbers = flatList(allStrokeNumbers)
-    
-    #Added
     allTimes = flatList(allTimes)
-    joint = array([allX, allY, allTimes, allStrokeNumbers]).transpose()
-    savetxt(outputDirectory + "data.csv", joint, delimiter=",")
-   
+    joint = np.array([allX, allY, allTimes, allStrokeNumbers]).transpose()
+    with open(os.path.join(outputDirectory, 'data.csv'), 'w+') as f:
+        csv_writer = csv.writer(f, delimiter=",")
+        for row in joint:
+            csv_writer.writerow(row)
 
-allSubjects = loadDataFromFolder(dataFolder)
-for subjectIndex, subject in enumerate(allSubjects):
-    for letterIndex, letter in enumerate(subject):
-        try:
-            withinChildOutputDirectory = outputFolder + "/" + \
-                                         subject.name + \
-                                         "/" + str(letterIndex) + "/"
-            if os.path.isdir(withinChildOutputDirectory):
-                shutil.rmtree(withinChildOutputDirectory)
-            os.makedirs(withinChildOutputDirectory)
-            makeimage(letter, withinChildOutputDirectory) 
+def process_file(in_path, out_path):
+    with open(in_path, 'r') as f:
+        dat = csv.reader(f, delimiter=',')
+        new_dat = []
+        last_stroke = -1
+        curr_stroke = []
+        for row in dat:
+            x = float(row[0])
+            y = float(row[1])
+            t = float(row[2])
+            stroke = int(float(row[3]))
+            if stroke != last_stroke and len(curr_stroke) > 0:
+                new_dat.append(curr_stroke)
+                curr_stroke = []
+            last_stroke = stroke
+            curr_stroke.append((x, y, t, stroke))
+        if len(curr_stroke) > 0:
+            new_dat.append(curr_stroke)
+    makeimage(new_dat, out_path)
+    print(out_path)
+    print(os.path.join(out_path, '\'*.png\''))
+    os.system("ffmpeg -framerate 30 -pattern_type glob -i '" + terminalUnfuck(os.path.join(out_path, '*.png\'')) + " -c:v libx264 -pix_fmt yuv420p " + terminalUnfuck(os.path.join(out_path, "out.mp4")))
+    os.system("convert -delay 1.5 " + terminalUnfuck(os.path.join(out_path, '*.png')) + ' ' + terminalUnfuck(os.path.join(out_path, "tout.gif")))
 
 
-            #Makes movie and gif
+for alph in os.listdir(dataFolder):
+    if not os.path.isdir(os.path.join(dataFolder, alph)) or alph == '.DS_Store':
+        continue
+    for letter in os.listdir(os.path.join(dataFolder, alph)):
+        if not os.path.isdir(os.path.join(dataFolder, alph, letter)) or letter == '.DS_Store':
+            continue
+        for char in os.listdir(os.path.join(dataFolder, alph, letter)):
+            if '.csv' not in char:
+                continue
+            if not os.path.exists(os.path.join(outputFolder, alph, letter, char[:-4])):
+                os.makedirs(os.path.join(outputFolder, alph, letter, char[:-4]))
+            process_file(os.path.join(dataFolder, alph, letter, char), os.path.join(outputFolder, alph, letter, char[:-4]))
+            print(alph, letter, char)
 
-            #directoryToImages = "/Users/cocosci/Desktop/ray_out/"
-            os.system("ffmpeg -framerate 30 -pattern_type glob -i '" + \
-                      terminalUnfuck(withinChildOutputDirectory) + \
-                       "*.png' -c:v libx264 -pix_fmt yuv420p " + 
-                      terminalUnfuck(withinChildOutputDirectory) + "out.mp4")
-
-            os.system("convert -delay 1.5 " + terminalUnfuck(withinChildOutputDirectory) +  \
-                       "/*.png " + terminalUnfuck(withinChildOutputDirectory) + "tout.gif")
-        except:
-            # sometimes files are missing watchagonnado move on
-            pass
-        plt.close()
